@@ -8,7 +8,7 @@ exports.checkAccountPayload = (req, res, next) => {
     res.status(400).json({ message: 'name and budget are required'})
     return;
   }  
-  
+
   name = name.trim()
   if(budget === null){
     budget = NaN
@@ -34,7 +34,14 @@ exports.checkAccountPayload = (req, res, next) => {
 }
 
 exports.checkAccountNameUnique = async (req, res, next) => {
-
+  const names = await Accounts.getNames()
+  const { name } = req.body
+  names.forEach(element => {
+    if(element.name == name){
+      res.status(400).json({ message: 'that name is taken'})
+    }
+  });
+ 
   next()
 }
 

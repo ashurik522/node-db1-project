@@ -40,8 +40,7 @@ const deleteById = async id => {
 }
 
 const getNames = () => {
-  return db('accounts')
-    .where('name')
+  return db('accounts').select('name')
 }
 
 module.exports = {
