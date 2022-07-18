@@ -3,13 +3,18 @@ const yup = require('yup');
 
 exports.checkAccountPayload = (req, res, next) => {
   let { name, budget } = req.body
-  console.log(budget)
-  if(typeof name !== 'string' || name.trim() === "" || budget == null){
+  
+  if(typeof name !== 'string' || name.trim() === "" || budget === undefined){
     res.status(400).json({ message: 'name and budget are required'})
     return;
   }  
+  
   name = name.trim()
+  if(budget === null){
+    budget = NaN
+  }
   budget = Number(budget)
+ 
 
   if(name.length < 3 || name.length > 100){
     res.status(400).json({ message: 'name of account must be between 3 and 100'})
