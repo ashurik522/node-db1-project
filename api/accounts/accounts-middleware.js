@@ -34,14 +34,11 @@ exports.checkAccountPayload = (req, res, next) => {
 }
 
 exports.checkAccountNameUnique = async (req, res, next) => {
-  const names = await Accounts.getNames()
-  const { name } = req.body
-  names.forEach(element => {
-    if(element.name == name){
-      res.status(400).json({ message: 'that name is taken'})
-    }
-  });
- 
+  let account = await Accounts.getNames(req.body.name)
+  if(account){
+    res.status(400).json({ message: 'that name is taken'})
+    return;
+  }
   next()
 }
 

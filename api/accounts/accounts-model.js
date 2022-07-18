@@ -15,8 +15,14 @@ const getById = id => {
   return db('accounts')
     .where('id',  id)
     .first()
-    
 }
+
+const getNames = name => {
+  return db('accounts')
+    .where('name', name)
+    .first()
+}
+
 
 const create = account => {
   return db('accounts')
@@ -46,9 +52,6 @@ const deleteById = async id => {
     return result
 }
 
-const getNames = () => {
-  return db('accounts').select('name')
-}
 
 module.exports = {
   getAll,
