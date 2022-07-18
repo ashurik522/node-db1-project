@@ -4,7 +4,7 @@ const { checkAccountId, checkAccountNameUnique, checkAccountPayload } = require(
 
 router.get('/', async (req, res, next) => {
   try {
-    const data = await Account.getAll()
+    const data = await Account.getAll(req.query)
     res.json(data)
   } catch (err) {
     next(err)

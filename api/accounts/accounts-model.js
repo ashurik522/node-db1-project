@@ -1,7 +1,14 @@
 const db = require('../../data/db-config')
 
-const getAll = () => {
-  return db('accounts')
+const getAll = (query) => {
+  let { page = 1, limit = 13, sortBy = 'id', sortdir = 'asc' } = query
+  const offset = limit * (page -1)
+
+  let rows = db('accounts')
+    .orderBy(sortBy, sortdir)
+    .limit(limit)
+    .offset(offset)
+  return rows
 }
 
 const getById = id => {
