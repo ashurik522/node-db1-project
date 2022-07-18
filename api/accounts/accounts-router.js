@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Account = require('./accounts-model')
+const { checkAccountId, checkAccountNameUnique, checkAccountPayload } = require('./accounts-middleware')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -10,7 +11,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', checkAccountId, async (req, res, next) => {
   try {
     const data = await Account.getById(req.params.id)
     res.json(data)
@@ -27,8 +28,13 @@ router.put('/:id', (req, res, next) => {
   // DO YOUR MAGIC
 });
 
-router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', checkAccountId, async (req, res, next) => {
+  try {
+    const data = await Account.deleteById(req.params.id)
+    res.json(data)
+  } catch(err) {
+    next(err)
+  }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
